@@ -43,6 +43,7 @@ export default {
     tambahkan: function(){
       let newItem = {deskripsi: this.myText}
       axios.post('http://localhost:3000/todo', newItem)
+      this.myText =''
       this.todos.push(newItem)
       console.log(newItem)
     },
