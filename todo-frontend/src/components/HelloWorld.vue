@@ -1,12 +1,8 @@
 <template>
   <div>
-    <h1>Selamat Datang</h1>
+    <h1>Selamat Datang di Tugas WebLanjutan Ryu</h1>
     <div>Berikut daftar kerja kita:</div>
     <ul>
-      <li>Makan Pisang Goreng</li>
-      <li>Minum jus Mangga</li>
-      <li>Makan bebek Panggang</li>
-      <li>-----------------------------</li>
       <li v-for="item in todos" :key="item.id">{{item.deskripsi}} <button @click="hapus(item.id)">X</button></li>
     </ul>
     <input v-model="myText"/>
@@ -51,25 +47,12 @@ export default {
       console.log(newItem)
     },
     hapus: function(id){
-      // var a = todos.splice(id-1,1)
       // alert(id)
-      // this.$delete(this.todos,id)
       // this.todos.splice(id,1)
       this.todos = this.todos.filter((e)=>e.id !== id )
       axios.delete(`http://localhost:3000/todo/${id}`)
-      
-      // axios.delete(`http://localhost:3000/todo/${id}`)
-      // .then(result => {
-      //   console.log(result)
-      //   console.log(result.data)
-      //   this.todos.splice(id-1,1)
-      //   // this.todos = result.data
-        
-      // })
-
     }
   }
-
 
   // data: () => {
   //   return { 
