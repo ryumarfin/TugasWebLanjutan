@@ -1,31 +1,29 @@
 const cors = require('cors')
-const bodyParser = require('body-parser')
+// const bodyParser = require('body-parser')
 const express = require('express')
-const mysql = require("mysql")
+// const mysql = require("mysql")
+
+const routerUser = require('./routers/user.js')
+const routerTodo = require('./routers/todo.js')
+const auth = require('./middlewares/auth.js')
+
 const app = express()
 
-app.use(bodyParser.urlencoded({ extended: true }))
-app.use(bodyParser.json())
+app.use(express.urlencoded({ extended: true }))
+app.use(express.json())
 app.use(cors())
 
-const connection = mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "Lengkong123_",
-    database: "weblanjutan",
-});
-
-connection.connect((err) => {
-    if(!err)
-        console.log('Database Connected')
-    else{
-        console.log('Error')
-    }
-})
+app.use('/todo', auth, routerTodo)
+app.use('/user', routerUser)
 
 app.get('/', (req, res) =>{
     res.send(`<html>
                 <body>
+                    <form action="/user" method ="post">
+                        <input name = "username" placeholder = "username"/>
+                        <input name = "password" placeholder = "password"/>
+                        <button type = "submitUser">Add</button>
+                    </form>
                     <form action="/todo" method ="post">
                         <input name = "deskripsi"/>
                         <button type = "submit">Add</button>
@@ -33,46 +31,5 @@ app.get('/', (req, res) =>{
                 </body>
             </html>`)
 })
-
-app.post('/todo', (req, res) => {
-    let data = req.body.deskripsi
-    connection.query("INSERT INTO dataaa (deskripsi) VALUES (?)", data, function (err, result) {
-        if(err){
-            console.log("error: ", err)
-            return
-        }
-        // console.log(result)
-        res.json(result)
-    });
-    // console.log(req)
-    // res.end()
-})
-
-app.get('/todo', (req, res) => {
-    connection.query("SELECT * FROM dataaa",  (err, result) => {
-        if (err){
-            console.log("error",err)
-        }
-        console.log(result);
-        // res.send(result)
-        res.json(result)
-    })
-})
-
-app.delete('/todo/:id', (req, res) => {
-    let id = req.params.id
-    // console.log(id)
-    let sql ="DELETE FROM dataaa WHERE id = ?;"
-    connection.query(sql, id, (err, result) => {
-        if (err) throw err;
-        else {
-            // console.log(result)
-            console.log(`Row deleted: ${result.affectedRows}`);
-        }
-    })
-    res.end()
-    // res.send("adf")
-})
-
 
 app.listen(3000)
