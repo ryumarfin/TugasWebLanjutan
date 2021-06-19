@@ -36,9 +36,16 @@ app.get('/', (req, res) =>{
 
 app.post('/todo', (req, res) => {
     let data = req.body.deskripsi
-    connection.query("INSERT INTO dataaa (deskripsi) VALUES (?)", data);
+    connection.query("INSERT INTO dataaa (deskripsi) VALUES (?)", data, function (err, result) {
+        if(err){
+            console.log("error: ", err)
+            return
+        }
+        // console.log(result)
+        res.json(result)
+    });
     // console.log(req)
-    res.end()
+    // res.end()
 })
 
 app.get('/todo', (req, res) => {
@@ -66,18 +73,6 @@ app.delete('/todo/:id', (req, res) => {
     res.end()
     // res.send("adf")
 })
-
-app.delete("/delete/:id", function(req, res) {
-    var todo = getTodoById(parseInt(req.params.id));
-    if (todo) {
-      removeTodo(parseInt(req.params.id));
-      res.send("ok");
-    } 
-    else {
-      res.status(400).send("record not found");
-    }
-});
-
 
 
 app.listen(3000)
