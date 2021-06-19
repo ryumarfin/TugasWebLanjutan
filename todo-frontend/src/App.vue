@@ -1,5 +1,7 @@
 <template> 
-  <router-link to="/todo">Halaman Todo</router-link>
+  <router-link to="/">Halaman Auth</router-link>
+   &nbsp;
+   <router-link to="/todo">Halaman Todo</router-link>
    &nbsp;
   <router-link to="/user">Halaman User</router-link>
 
