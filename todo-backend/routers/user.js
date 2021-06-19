@@ -41,10 +41,10 @@ router.post('/', authPostfMiddleware, (req, res) => {
 
 let authDeleteMiddleware = (req,res,next) => {
     db.query("SELECT COUNT(*) as jlh_user FROM userr", (err, resultss) => {
-        if(resultss[0].jlh_user < 2){
-            auth(req,res,next)
+        if(resultss[0].jlh_user == 1){
+            console.log("cannot delete the last user")
         }else{
-            // console.log(resultss[0].jlh_user)
+            console.log(resultss[0].jlh_user)
             next()
         }
     })
